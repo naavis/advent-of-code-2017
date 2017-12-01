@@ -5,10 +5,7 @@ fn main() {
     // Read input
     let args: Vec<String> = std::env::args().collect();
     let input_filename = args.get(1).expect("No input file given!");
-    let mut file = fs::File::open(input_filename).expect("Could not open file!");
-    let mut file_contents = String::new();
-    file.read_to_string(&mut file_contents).expect("Failed to read file!");
-    file_contents = file_contents.trim().to_string();
+    let file_contents = get_file_contents(&input_filename);
 
     let mut numbers: Vec<u8> = Vec::new();
     for c in file_contents.chars() {
@@ -18,6 +15,14 @@ fn main() {
 
     let sum = get_captcha_sum(&numbers);
     println!("Captcha sum is: {}", sum);
+}
+
+fn get_file_contents(filename: &String) -> String {
+    let mut file = fs::File::open(filename).expect("Could not open file!");
+    let mut file_contents = String::new();
+    file.read_to_string(&mut file_contents).expect("Failed to read file!");
+    file_contents = file_contents.trim().to_string();
+    file_contents
 }
 
 fn get_captcha_sum(numbers: &Vec<u8>) -> u64 {
